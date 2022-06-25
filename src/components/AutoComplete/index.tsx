@@ -31,39 +31,7 @@ export const AutoComplete: React.FC<IProps> = (props) => {
   useEffect(()=>{
     valueRef.current = value
   }, [value])
-
-  // 添加高亮效果
-  useEffect(()=>{
-    setTimeout(() => {
-      if(filterOptions.length){
-        // for(let i=0; i<filterOptions.length; i++) {
-        //   // 把str中的char替换成span
-        //   let highlightened = filterOptions[i].replace(
-        //     new RegExp(value, 'g'),
-        //     `<span style='color:red'>${value}</span>`
-        //     )
-        //   liList[i].innerHTML = highlightened
-        // }
-        // 高亮关键词
-        highlight()
-      }
-    });
-  }, [filterOptions])
-
-  // 实现点击li将内容填充到input中去
-  useEffect(() => {
-    if(isShow) {
-      const liList = document.querySelectorAll('.li')
-      for(let i=0; i<liList.length; i++) {
-        liList[i].addEventListener('click', ()=>{
-          console.log(filterOptions[i]);
-          setValue(filterOptions[i])
-          setFilter([filterOptions[i]])
-        })
-      }
-    }
-  }, [isShow, filterOptions])
-
+  
   /**
    *  高亮关键字
    * @param node - 节点
@@ -98,8 +66,8 @@ export const AutoComplete: React.FC<IProps> = (props) => {
     // 不是已经标记过高亮的元素作为条件之一的理由是，避免进入死循环，一直往里套span标签
     else if ((node.nodeType === 1)  && !(/script|style/.test(node.tagName.toLowerCase())) && (node.dataset.highlight !== 'yes')) {
         // 遍历该节点的所有子孙节点，找出文本节点进行高亮标记
-        var childNodes = node.childNodes;
-        for (var i = 0; i < childNodes.length; i++) {
+        let childNodes = node.childNodes;
+        for (let i = 0; i < childNodes.length; i++) {
             highlightKeyword(childNodes[i], pattern);
         }
     }
@@ -112,6 +80,31 @@ export const AutoComplete: React.FC<IProps> = (props) => {
       highlightKeyword(liList[i], pattern)
     }
   }
+
+  // 添加高亮效果
+  useEffect(()=>{
+    setTimeout(() => {
+      if(filterOptions.length){
+        // 高亮关键词
+        highlight()
+      }
+    });
+  }, [filterOptions])
+
+  // 实现点击li将内容填充到input中去
+  useEffect(() => {
+    if(isShow) {
+      const liList = document.querySelectorAll('.li')
+      for(let i=0; i<liList.length; i++) {
+        liList[i].addEventListener('click', ()=>{
+          console.log(filterOptions[i]);
+          setValue(filterOptions[i])
+          setFilter([filterOptions[i]])
+        })
+      }
+    }
+  }, [isShow, filterOptions])
+
 
   // 防抖中要触发的事件
   const event = (): void => {
@@ -135,23 +128,6 @@ export const AutoComplete: React.FC<IProps> = (props) => {
       }
     });
   }
-  //#region 失败的防抖
-  // type IDebounce = (delay: number, event: Event) => ChangeEventHandler<HTMLInputElement>
-  // const debounce: IDebounce = (delay, event) => {
-  //   setValue(e.currentTarget.value)
-  //   // ts里定时器相关：https://blog.csdn.net/ollin2012/article/details/88963553
-  //   let timer:number | null = null
-  //   return function () {
-  //     console.log(timer);
-  //     if(timer) {
-  //       window.clearTimeout(timer as number);
-  //     }
-  //     timer = window.setTimeout(() => {
-  //       event()
-  //     }, delay);
-  //   }
-  // }
-  //#endregion
 
   // focus时
   const onFocus = (): void => {
@@ -166,10 +142,7 @@ export const AutoComplete: React.FC<IProps> = (props) => {
   // blur时
   const onBlur = (): void => {
     setTimeout(() => {
-      // if(isBlur) {
         setIsShow(false)
-        // setBlur(true)
-      // }
     }, 100);
   }
   // change时
