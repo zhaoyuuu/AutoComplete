@@ -1,0 +1,39 @@
+.auto-complete {
+  box-sizing: border-box;
+  width: 250px;
+  height: 30px;
+  outline: none;
+  border: 1px solid rgb(126, 124, 124);
+  border-radius: 5px;
+}
+.auto-complete:focus {
+  border-color: rgb(102, 188, 222);
+}
+
+.dropdown {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 250px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  color: rgb(97, 94, 94);
+  position: absolute;
+  background-color: #fff;
+}
+.dropdown li {
+  padding-left: 10px;
+  height: 40px;
+  line-height: 40px;
+}
+.dropdown li:hover {
+  background-color: #eee;
+  cursor: pointer;
+}
+
+/** css高亮样式设置 **/
+[data-highlight=yes] {
+  display: inline-block;
+  color: red;
+  font-weight: 700;
+}
